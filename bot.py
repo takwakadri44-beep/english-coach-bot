@@ -19,13 +19,9 @@ def run_flask():
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# 3. تهيئة البوت وموديل جيمني (تمرير المفتاح مباشرة للموديل لضمان الاتصال)
+# 3. تهيئة البوت وموديل جيمني (تمرير المتغير بشكل مباشر وصحيح)
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
-
-model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash',
-    api_key=GEMINI_API_KEY
-)
+model = genai.GenerativeModel('gemini-1.5-flash', api_key=GEMINI_API_KEY)
 
 USER_STATES = {}
 
@@ -102,8 +98,7 @@ def handle_msg(message):
         print(f"Error: {e}")
 
 if __name__ == "__main__":
-    # تشغيل السيرفر الوهمي والبوت معاً لمنع التوقف
+    # تشغيل السيرفر المصاحب والبوت معاً لمنع التوقف
     t = Thread(target=run_flask)
     t.start()
     bot.polling(none_stop=True)
-
