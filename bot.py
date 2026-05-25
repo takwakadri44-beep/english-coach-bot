@@ -19,12 +19,13 @@ def run_flask():
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# 3. تهيئة البوت وموديل جيمني
+# 3. تهيئة البوت وموديل جيمني (تمرير المفتاح مباشرة للموديل لضمان الاتصال)
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
-genai.configure(api_key=GEMINI_API_KEY)
 
-# استخدام الـ Model المستقر والمدعوم عالمياً في الحسابات المجانية
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel(
+    model_name='gemini-1.5-flash',
+    api_key=GEMINI_API_KEY
+)
 
 USER_STATES = {}
 
@@ -105,3 +106,4 @@ if __name__ == "__main__":
     t = Thread(target=run_flask)
     t.start()
     bot.polling(none_stop=True)
+
